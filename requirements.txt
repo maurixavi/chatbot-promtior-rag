@@ -6,7 +6,7 @@ langserve
 langchain_groq
 langchain
 langchain_community
-langchain_huggingface
+langchain_huggingface[endpoint]
 bs4
 pypdf
 faiss-cpu 

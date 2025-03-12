@@ -3,7 +3,7 @@ from langchain.text_splitter import RecursiveCharacterTextSplitter
 from langchain_huggingface import HuggingFaceEndpointEmbeddings
 from langchain_community.vectorstores import FAISS
 
-from settings import DEFAULT_URLS, DEFAULT_PDFS # data sources
+from settings import DEFAULT_URLS, DEFAULT_PDFS # Data sources
 from dotenv import load_dotenv
 import os
 
@@ -73,7 +73,7 @@ def load_all_data_sources():
 
 ### SPLIT ###
 def split_documents(documents):
-    """Dividir todos los documentos combinados en fragmentos."""
+    """Split all combined documents into chunks."""
     text_splitter = RecursiveCharacterTextSplitter(chunk_size=1500, chunk_overlap=200)
     all_splitted_documents = text_splitter.split_documents(documents)
     
@@ -93,7 +93,7 @@ def get_vector_store(documents_chunks):
         huggingfacehub_api_token=huggingfacehub_api_token,
     )
 
-    # Crear el vector store con FAISS
+    # Create the vector store with FAISS
     vector_store = FAISS.from_documents(documents_chunks, embeddings)
 
     vector_store.save_local("faiss_index")

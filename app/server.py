@@ -1,6 +1,4 @@
-# Dependencies: pip install streamlit langchain langchain-openai beautifulsoup4 python-dotenv chromadb
 import os
-import re
 from pathlib import Path
 from typing import Callable, Union, List, Dict, Any
 
@@ -24,17 +22,13 @@ from langchain_community.chat_message_histories import FileChatMessageHistory, C
 
 # Custom utilities for RAG (Retrieval-Augmented Generation)
 from rag_utils import load_all_data_sources, split_documents, get_vector_store
-#from langchain_community.document_loaders import WebBaseLoader, PyPDFLoader #requires bsoup
-#from langchain.text_splitter import RecursiveCharacterTextSplitter
-#from langchain_huggingface import HuggingFaceEmbeddings
-#from langchain_community.vectorstores import FAISS
 from rag_utils import load_all_data_sources, split_documents, get_vector_store
+
 
 ### Load environment variables ###
 load_dotenv()
 GROQ_API_KEY = os.getenv("GROQ_API_KEY") 
 MODEL_NAME = "llama3-8b-8192" #'mixtral-8x7b-32768'
-
 
 
 # -------------------------------------------------
@@ -53,29 +47,23 @@ def get_session_history(session_id: str) -> BaseChatMessageHistory:
 
 
 # -------------------------------------------------
-# RAG Configuration
+# RAG Pipeline Configuration
 # -------------------------------------------------
 
 ### Load and process documents ###
 all_documents = load_all_data_sources()
-print(f"Total documentos combinados: {len(all_documents)}")
+print(f"Total combined documents: {len(all_documents)}")
 
 document_chunks = split_documents(all_documents)
-print(f"Total fragmentos generados: {len(document_chunks)}")
 
 vector_store = get_vector_store(document_chunks)
-print("Vector store creado y guardado localmente.")
+print("Vector store created and saved locally.")
+
 
 
 ### Configure retriever (Given a user input, relevant chunks are retrieved from storage using a Retriever) ###
-
 retriever = vector_store.as_retriever() # Give us the documents that are relevant to our conversation
 
-contextualize_q_system_prompt2 = """
-Given a chat history and the latest user question which might reference context in the chat history, 
-formulate a standalone question which can be understood without the chat history. 
-Do NOT answer the question, just reformulate it if needed and otherwise return it as is.
-"""
 
 contextualize_q_system_prompt = """
 You are a search query expert. Your task is to:
@@ -83,6 +71,13 @@ You are a search query expert. Your task is to:
     2. Create a relevant search query only if needed
     3. Focus on key concepts rather than exact phrases
 """
+
+# Alternative prompt
+# contextualize_q_system_prompt2 = """
+# Given a chat history and the latest user question which might reference context in the chat history, 
+# formulate a standalone question which can be understood without the chat history. 
+# Do NOT answer the question, just reformulate it if needed and otherwise return it as is.
+# """
 
 retriever_prompt = ChatPromptTemplate.from_messages([
     ("system", contextualize_q_system_prompt),
@@ -103,7 +98,7 @@ retriever_chain = create_history_aware_retriever(
 # - If there is chat_history, then the prompt and LLM will be used to generate a search query. 
 #   That search query is then passed to the retriever. 
 # https://api.python.langchain.com/en/latest/chains/langchain.chains.history_aware_retriever.create_history_aware_retriever.html
-print("Cadena de recuperación configurada.")
+print("Retrieval chain configured.")
 
 
 ### Configure RAG chain for generation ###
@@ -135,7 +130,7 @@ stuff_documents_chain = create_stuff_documents_chain(
 conversational_rag_chain = create_retrieval_chain(
     retriever_chain, stuff_documents_chain
 )
-print("Cadena de generación configurada.")
+print("Generation chain configured.")
 
 
 
@@ -162,7 +157,6 @@ app.add_middleware(
 # Add chat routes with session-based RAG chain
 rag_chain = RunnableWithMessageHistory(
     conversational_rag_chain,
-    #create_session_factory("chat_rag_histories"),
     get_session_history,
     input_messages_key="input",
     history_messages_key="chat_history",
