@@ -1,7 +1,7 @@
 # RAG-Based Chatbot
 
 ## Overview
-This project implements a **Retrieval-Augmented Generation (RAG) chatbot** using **LangChain**, **Hugging Face embeddings**, and **Streamlit**. The chatbot retrieves relevant information from structured data sources and generates responses based on user queries. It is deployed on **AWS EC2**, exposing both the server and the client from a single instance.
+This project implements a **Retrieval-Augmented Generation (RAG) chatbot** using **LangChain**, **ChatGroq** with the **Llama3-8b-8192 model**, and **Streamlit** for the user interface. The chatbot leverages **Hugging Face embeddings** to retrieve relevant context from structured data sources, which is then used by ChatGroq inference capabilities to generate accurate and context-aware responses to user queries. The backend is exposed via **LangServe** through FastAPI endpoints, enabling seamless communication between the frontend and backend. The entire application is deployed on **AWS EC2**, where both the server and client are hosted on a single instance.
 
 ## Features
 - **Retrieval-Augmented Generation (RAG) model**
@@ -72,7 +72,7 @@ sudo apt update && sudo apt install -y python3-pip python3-venv git
 
 ### 4. Clone the Repository on EC2
 ```sh
-git clone https://github.com/your-username/rag-chatbot.git
+git clone https://github.com/maurixavi/chatbot-promtior-rag
 cd rag-chatbot
 ```
 
