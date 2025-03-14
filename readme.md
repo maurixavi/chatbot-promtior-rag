@@ -22,7 +22,7 @@ Ensure you have the following installed:
 
 ### 1. Clone the Repository
 ```sh
-git clone https://github.com/your-username/rag-chatbot.git
+git clone https://github.com/maurixavi/chatbot-promtior-rag
 cd rag-chatbot
 ```
 
