@@ -1,12 +1,12 @@
 # **Project Overview**
 
-To tackle the challenge of implementing a RAG-based chatbot, I followed a practical, step-by-step approach. I began by researching the key concepts of RAG through the official LangChain documentation, which helped me break the problem into two main parts: data ingestion and indexing, and retrieval and response generation. I implemented an initial version in a Jupyter Notebook to familiarize myself with the workflow, allowing me to identify key steps and potential technical challenges.
+To tackle the challenge of implementing a RAG-based chatbot, I followed a practical, step-by-step approach. I began by researching the key concepts of RAG through the official [LangChain tutorial](https://python.langchain.com/docs/tutorials/rag/)  to Build a RAG , which helped me break the problem into two main parts: data ingestion and indexing, and retrieval and response generation. I implemented an initial version in a Jupyter Notebook to familiarize myself with the workflow, allowing me to identify key steps and potential technical challenges.
 
-Once I had a solid understanding of the concepts, I developed a basic chatbot using Streamlit and Groq’s chat model, focusing on conversation management and memory handling. This gave me the confidence to move toward a more complex solution incorporating RAG. I integrated data ingestion from the Promptior website and PDF files, generated embeddings using a Hugging Face model, and configured a RAG chain to retrieve relevant documents and generate responses.
+Once I had a solid understanding of the concepts, I developed a basic chatbot using Streamlit and [Groq’s chat model](https://python.langchain.com/docs/integrations/chat/groq/), focusing on conversation management and memory handling. This gave me the confidence to move toward a more complex solution incorporating RAG. I integrated data ingestion from the Promptior website and a PDF file, generated embeddings using a [Hugging Face model](https://python.langchain.com/api_reference/huggingface/embeddings/langchain_huggingface.embeddings.huggingface_endpoint.HuggingFaceEndpointEmbeddings.html#langchain_huggingface.embeddings.huggingface_endpoint.HuggingFaceEndpointEmbeddings), and configured a RAG chain to retrieve relevant documents and generate responses.
 
-When it came to integrating LangServe, my first step was to explore the official documentation and experiment with the provided example. This helped me understand how LangServe handles requests and responses and how to expose the RAG chain as a REST API. The main challenge was configuring the RAG chain to work with the chat endpoint while maintaining conversation memory. The tutorial didn’t cover this, so I researched and discovered **RunnableWithMessageHistory**, which turned out to be the perfect solution. This allowed the chatbot to remember previous interactions and generate more coherent responses.
+When it came to integrating LangServe, my first step was to explore the [official documentation](https://python.langchain.com/docs/langserve/) and experiment with the provided example. This helped me understand how LangServe handles requests and responses and how to expose the RAG chain as a REST API. The main challenge was configuring the RAG chain to work with the chat endpoint while maintaining conversation memory. The tutorial didn’t cover this, so I researched and discovered [RunnableWithMessageHistory](https://python.langchain.com/api_reference/core/runnables/langchain_core.runnables.history.RunnableWithMessageHistory.html), which turned out to be the perfect solution. This allowed the chatbot to remember previous interactions and generate more coherent responses.
 
-Finally, I deployed the complete application on AWS by cloning a single repository and exposing both the server and the client on a single AWS EC2 instance.
+Finally, I deployed the complete application on AWS by cloning a single repository and exposing both the server and the client on a single [AWS EC2 instance](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/EC2_GetStarted.html).
 
 ---
 
@@ -51,10 +51,10 @@ The chatbot implementation was divided into several key stages:
 ## **Technologies Used**
 
 - **LangChain** – For implementing the RAG chain and managing conversation history.
-- **FastAPI** – For exposing the chatbot as a REST API.
+- **Langserve/FastAPI** – For exposing the chatbot as a REST API.
 - **Streamlit** – For the chatbot’s user interface.
-- **Hugging Face** – For embedding generation.
 - **Groq** – For response generation using its chat model.
+- **Hugging Face** – For embedding generation.
 - **AWS EC2** – For deploying the chatbot in a cloud environment.
 
 ---
