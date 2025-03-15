@@ -17,7 +17,7 @@ This project implements a **Retrieval-Augmented Generation (RAG) chatbot** using
 Ensure you have the following installed:
 - Python 3.9+
 - Pip
-- Virtual environment (optional but recommended)
+- Virtual environment
 - Git
 
 ### 1. Clone the Repository
